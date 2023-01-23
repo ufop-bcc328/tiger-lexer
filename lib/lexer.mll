@@ -30,6 +30,10 @@ let id = alpha+ (alpha | digit | '_')*
 
 rule token = parse
   | spaces { token lexbuf }
+  | '\n' { L.new_line lexbuf; token lexbuf }
   | "array" { ARRAY }
 
   (* WRITE THE MISSING LEXICAL RULES HERE *)
+
+  | eof { EOF }
+  | _ as lxm      { illegal_character (Location.curr_loc lexbuf) lxm }
